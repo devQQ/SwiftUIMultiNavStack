@@ -79,12 +79,15 @@ public struct NavigationController<Content: View>: UIViewControllerRepresentable
     }
     
     public func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+        guard stack?.id == stackId else {
+            return
+        }
         
         guard uiViewController.viewControllers.count > 1 ||
             (stack?.count ?? 0 > 0) else {
             return
         }
-        
+
         guard let cacheElement = stack?.cacheElement,
             let currentElement = stack?.currentElement else {
                 uiViewController.popToRootViewController(animated: animated)
@@ -98,7 +101,6 @@ public struct NavigationController<Content: View>: UIViewControllerRepresentable
             
             //This will hide the back button so it does not show up during push animation
             currentElement.element.navigationItem.hidesBackButton = true
-            
             uiViewController.pushViewController(currentElement.element, animated: animated)
         } else {
             uiViewController.popToViewController(currentElement.element, animated: animated)

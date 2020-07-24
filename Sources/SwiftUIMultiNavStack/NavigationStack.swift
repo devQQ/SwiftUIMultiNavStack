@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public class NavigationStack: ObservableObject {
+public class NavigationStack: ObservableObject, Identifiable {
     private struct ViewStack {
         private var views: [ViewElement] = []
         
@@ -74,8 +74,7 @@ public class NavigationStack: ObservableObject {
         }
     }
     
-    public init() {}
-    
+    public let id: String
     private var viewStack = ViewStack()
     
     @Published public var cacheElement: ViewElement?
@@ -85,6 +84,10 @@ public class NavigationStack: ObservableObject {
     }
     
     public var count: Int { return viewStack.count }
+    
+    public init(id: String) {
+        self.id = id
+    }
     
     public func push<Destination: View>(view: Destination, id: String = UUID().uuidString) {
         let element = ViewElement(id: id, element: UIHostingController(rootView: view))
@@ -117,3 +120,8 @@ public class NavigationStack: ObservableObject {
     }
 }
 
+extension NavigationStack: Equatable {
+    public static func ==(lhs: NavigationStack, rhs: NavigationStack) -> Bool {
+        lhs.id == rhs.id
+    }
+}
