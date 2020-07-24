@@ -17,16 +17,20 @@ public struct PopView<Label: View>: View {
     @EnvironmentObject private var stacks: NavigationStacks
     
     let destination: PopDestination
+    let preAction: (() -> Void)?
     let label: () -> Label
     
-    public init(destination: PopDestination, label: @escaping () -> Label) {
+    public init(destination: PopDestination, preAction: (() -> Void)? = nil, label: @escaping () -> Label) {
         self.destination = destination
+        self.preAction = preAction
         self.label = label
     }
     
     public var body: some View {
         label()
             .onTapGesture(perform: {
+                self.preAction?()
+                
                 switch self.destination {
                 case .root:
                     self.stacks.popToRoot()
