@@ -12,7 +12,7 @@ public let ROOT_STACK = "RootStack"
 
 public class NavigationStacks: ObservableObject {
     @Published public var stacks: [String: NavigationStack] = [:]
-    var activeStack: NavigationStack?
+    public var activeStack: NavigationStack?
     
     var cancelBag = CancelBag()
     
