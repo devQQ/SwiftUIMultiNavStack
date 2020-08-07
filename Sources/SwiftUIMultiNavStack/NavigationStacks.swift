@@ -11,7 +11,7 @@ import SwiftUIToolbox
 public let ROOT_STACK = "RootStack"
 
 public class NavigationStacks: ObservableObject {
-    @Published private var stacks: [String: NavigationStack] = [:]
+    @Published var stacks: [String: NavigationStack] = [:]
     var activeStack: NavigationStack?
     
     var cancelBag = CancelBag()
