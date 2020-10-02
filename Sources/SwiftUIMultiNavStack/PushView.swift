@@ -17,13 +17,18 @@ public struct PushView<Destination: View, Label: View>: View {
     let preAction: (() -> Void)?
     let id: String
     let label: () -> Label
-    var plainStyle: Bool = true
+    let plainStyle: Bool
 
-    public init(destination: @escaping () -> Destination, preAction: (() -> Void)? = nil, id: String = UUID().uuidString, label: @escaping () -> Label) {
+    public init(destination: @escaping () -> Destination,
+                preAction: (() -> Void)? = nil,
+                id: String = UUID().uuidString,
+                label: @escaping () -> Label,
+                plainStyle: Bool = true) {
         self.destination = destination
         self.preAction = preAction
         self.id = id
         self.label = label
+        self.plainStyle = plainStyle
     }
     
     public var body: some View {
