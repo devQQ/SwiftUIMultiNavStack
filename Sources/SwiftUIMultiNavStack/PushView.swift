@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SwiftUIToolbox
 
 public struct PushView<Destination: View, Label: View>: View {
     @EnvironmentObject private var stacks: NavigationStacks
@@ -16,6 +17,7 @@ public struct PushView<Destination: View, Label: View>: View {
     let preAction: (() -> Void)?
     let id: String
     let label: () -> Label
+    var plainStyle: Bool = true
 
     public init(destination: @escaping () -> Destination, preAction: (() -> Void)? = nil, id: String = UUID().uuidString, label: @escaping () -> Label) {
         self.destination = destination
@@ -29,6 +31,9 @@ public struct PushView<Destination: View, Label: View>: View {
             self.preAction?()
             self.stacks.push(view: self.destination(), id: self.id)
         }, label: { label() })
+        .if(plainStyle, content: { content in
+            content
             .buttonStyle(PlainButtonStyle())
+        })
     }
 }
